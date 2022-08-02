@@ -1,31 +1,34 @@
 import React, { Component } from 'react'
+import { getFavorites } from '../services/favoriteService';
 
 class Favorite extends Component {
+  state = {
+    personagens: []
+  }
+
+  componentDidMount() {
+    const personagens = getFavorites();
+    this.setState({
+      personagens
+    });
+  }
 
   render() {
+    const { personagens } = this.state;
     return (
         <div>
-          <div className="character">
-            <img className="img-detail" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="exemplo" />
-            <h1>Name: Name</h1>
-            <h2>Status: Alive</h2>
-            <h2>Origin: C117</h2>
-            <h2>Location: Citadel of Ricks</h2>
-          </div>
-          <div className="character">
-            <img className="img-detail" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="exemplo" />
-            <h1>Name: Name</h1>
-            <h2>Status: Alive</h2>
-            <h2>Origin: C117</h2>
-            <h2>Location: Citadel of Ricks</h2>
-          </div>
-          <div className="character">
-            <img className="img-detail" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="exemplo" />
-            <h1>Name: Name</h1>
-            <h2>Status: Alive</h2>
-            <h2>Origin: C117</h2>
-            <h2>Location: Citadel of Ricks</h2>
-          </div>
+          {
+            personagens.map((personagem) => (
+              <div className="character">
+                <img className="img-detail" src={ personagem.image } alt="exemplo" />
+                <h1>Name: { personagem.name }</h1>
+                <h2>Status: { personagem.status } </h2>
+                <h2>Origin: { personagem.origin ? personagem.origin.name : null }</h2>
+                {/* <h2>Origin: { personagem.origin && personagem.origin.name }</h2> */}
+                <h2>Location: { personagem.location && personagem.location.name }</h2>
+              </div>
+            ))
+          }
         </div>
     )
   }
